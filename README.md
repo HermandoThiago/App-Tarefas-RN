@@ -1,10 +1,10 @@
 # App gerenciamento de tarefas
 
-### Olá, me chamo Hermando e este é um projeto desenvolvido com as seguintes tecnologias
+### Tecnologias
 
 + React Native
 + Expo
-+ AsyncStorage
++ Javascript
 
 O app ainda está em desenvolvimento, porém, o design está pronto:
 

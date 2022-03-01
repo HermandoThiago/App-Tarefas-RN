@@ -6,15 +6,16 @@ import { AntDesign } from '@expo/vector-icons';
 export default function Body(){
 
     const [modal, setModal] = useState(true)
+    const [tarefaAtual, setTarefaAtual] = useState('')
 
     const [Tarefas, setTarefa] = useState([
         {
-        id: 1,
-        tarefa: 'Minha tarefa n° 1'
+            id: 1,
+            tarefa: 'Minha tarefa n° 1'
         },
         {
-        id: 2,
-        tarefa: 'Minha outra tarefa'
+            id: 2,
+            tarefa: 'Minha outra tarefa'
         }
     ])
 
@@ -25,6 +26,24 @@ export default function Body(){
         })
 
         setTarefa(newTarefa)
+
+    }
+
+    function addTarefa(){
+        setModal(!modal)
+        alert('Tarefa adicionada com sucesso!')
+
+        let id = 0
+        if(Tarefas.length > 0){
+            id = Tarefas[Tarefas.length-1].id + 1
+        }
+
+        let tarefaPush = {
+            id:id,
+            tarefa:tarefaAtual
+        }
+
+        setTarefa([...Tarefas,tarefaPush])
 
     }
 
@@ -40,13 +59,11 @@ export default function Body(){
             >
                 <View style={styles.centeredView}>
                 <View style={styles.ModalView}>
-                    <TextInput autoFocus={true}></TextInput>
+                    <TextInput style={styles.modalInput} onChangeText={text => setTarefaAtual(text)} autoFocus={true}></TextInput>
 
                     <TouchableHighlight
                     style={{...styles.openButton, backgroundColor: '#2196F3'}}
-                    onPress={() => {
-                        setModal(!modal)
-                    }}
+                    onPress={() => addTarefa()}
                     >
                     <Text style={styles.textStyle}>Adicionar Tarefa</Text>
                     </TouchableHighlight>
@@ -55,7 +72,7 @@ export default function Body(){
             </Modal>
 
             <View>
-                <TouchableOpacity style={styles.addButton}>
+                <TouchableOpacity style={styles.addButton} onPress={()=>setModal(true)}>
                     <Text style={styles.textButton}>Adicionar Tarefa</Text>
                 </TouchableOpacity>
             </View>
@@ -83,6 +100,15 @@ export default function Body(){
 }
 
 const styles = StyleSheet.create({
+    modalInput:{
+        backgroundColor:'blue',
+        width:200,
+        height:45,
+        marginBottom:10,
+        borderRadius:20,
+        paddingLeft:15,
+        backgroundColor:'rgba(0,0,0,0.1)'
+    },  
     addButton:{
         width:'95%',
         backgroundColor:'#31456A',
@@ -122,7 +148,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#DD3838',
         width:'25%',
         height:'100%',
-        borderRadius:20
+        borderRadius:20 
       },
     centeredView:{
         flex:1,

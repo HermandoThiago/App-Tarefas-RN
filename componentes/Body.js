@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Modal, TouchableHighlight, Alert, TextInput } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Body(){
 
-    const [modal, setModal] = useState(true)
+    const [modal, setModal] = useState(false)
     const [tarefaAtual, setTarefaAtual] = useState('')
 
     const [Tarefas, setTarefa] = useState([
@@ -19,6 +19,21 @@ export default function Body(){
         }
     ])
 
+    useEffect(() => {
+        (async () => {
+            try{
+                let tarefaAtual = await AsyncStorage.getItem('tarefas')
+                if(tarefaAtual == null){
+                    setTarefa([])
+                }else{
+                    setTarefa(JSON.parse(tarefaAtual))
+                }
+            }catch(error){
+                console.log(String(error))
+            }
+        })();
+    })
+
     function deletarTarefa(id){
         
         let newTarefa = Tarefas.filter((val) => {
@@ -26,6 +41,15 @@ export default function Body(){
         })
 
         setTarefa(newTarefa)
+
+        (async () => {
+            try{
+                await AsyncStorage.setItem('Tarefas', JSON.stringify(newTarefa))
+                console.log('chamado')
+            } catch(error){
+                // Error saving data
+            }
+        })()
 
     }
 
@@ -45,7 +69,20 @@ export default function Body(){
 
         setTarefa([...Tarefas,tarefaPush])
 
+        (async () => {
+            try{
+                await AsyncStorage.setItem('Tarefas', JSON.stringify([...Tarefas,tarefaPush]))
+                console.log('chamado')
+            } catch(error){
+                // Error saving data
+            }
+        })()
+
+        setTarefaAtual('')
+
     }
+
+    
 
     return(
         <View>

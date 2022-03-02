@@ -12,4 +12,4 @@
 
 ### Projeto concluído:
 
-<img width="55%" src="https://user-images.githubusercontent.com/90439416/156422599-0fbba694-f8b7-40f5-8db0-b6fb6a26e311.gif"/>
+<img width="40%" src="https://user-images.githubusercontent.com/90439416/156422599-0fbba694-f8b7-40f5-8db0-b6fb6a26e311.gif"/>

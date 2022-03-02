@@ -5,34 +5,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Body(){
 
+    
     const [modal, setModal] = useState(false)
     const [tarefaAtual, setTarefaAtual] = useState('')
-
-    const [Tarefas, setTarefa] = useState([
-        {
-            id: 1,
-            tarefa: 'Minha tarefa n° 1'
-        },
-        {
-            id: 2,
-            tarefa: 'Minha outra tarefa'
-        }
-    ])
+    const [Tarefas, setTarefas] = useState([])
 
     useEffect(() => {
+
         (async () => {
             try{
-                let tarefaAtual = await AsyncStorage.getItem('tarefas')
-                if(tarefaAtual == null){
-                    setTarefa([])
-                }else{
-                    setTarefa(JSON.parse(tarefaAtual))
-                }
-            }catch(error){
-                console.log(String(error))
+                let tarefasAtual = await AsyncStorage.getItem('Tarefas');
+                if(tarefasAtual == null)
+                    setTarefas([]);
+                else
+                    setTarefas(JSON.parse(tarefasAtual));
+                
+            } catch (error){
+                
             }
         })();
-    })
+    },[])
 
     function deletarTarefa(id){
         
@@ -40,7 +32,7 @@ export default function Body(){
         return val.id != id
         })
 
-        setTarefa(newTarefa)
+        setTarefas(newTarefa);
 
         (async () => {
             try{
@@ -54,31 +46,26 @@ export default function Body(){
     }
 
     function addTarefa(){
-        setModal(!modal)
-        alert('Tarefa adicionada com sucesso!')
+        setModal(!modal);
 
         let id = 0
         if(Tarefas.length > 0){
-            id = Tarefas[Tarefas.length-1].id + 1
+            id = Tarefas[Tarefas.length-1].id + 1;
         }
 
-        let tarefaPush = {
-            id:id,
-            tarefa:tarefaAtual
-        }
+        let tarefa = { id:id, tarefa:tarefaAtual };
 
-        setTarefa([...Tarefas,tarefaPush])
+        setTarefas([...Tarefas,tarefa]);
 
         (async () => {
             try{
-                await AsyncStorage.setItem('Tarefas', JSON.stringify([...Tarefas,tarefaPush]))
-                console.log('chamado')
+                await AsyncStorage.setItem('Tarefas', JSON.stringify([...Tarefas,tarefa]))
             } catch(error){
                 // Error saving data
             }
-        })()
+        })();
 
-        setTarefaAtual('')
+        setTarefaAtual('');
 
     }
 
@@ -100,7 +87,7 @@ export default function Body(){
 
                     <TouchableHighlight
                     style={{...styles.openButton, backgroundColor: '#2196F3'}}
-                    onPress={() => addTarefa()}
+                    onPress={()=>addTarefa()}
                     >
                     <Text style={styles.textStyle}>Adicionar Tarefa</Text>
                     </TouchableHighlight>
@@ -122,7 +109,7 @@ export default function Body(){
                             <Text style={{fontSize:15}}>{val.tarefa}</Text>
                         </View>
                         <View style={styles.deleteButton}>
-                            <TouchableOpacity onPress={() => deletarTarefa(val.id)}>
+                            <TouchableOpacity onPress={()=>deletarTarefa(val.id)}>
                             <AntDesign name="minuscircleo" size={30} color="white" />
                             </TouchableOpacity>
                         </View>

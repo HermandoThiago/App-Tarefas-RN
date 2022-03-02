@@ -5,7 +5,6 @@ import Header from './componentes/Header';
 import Body from './componentes/Body';
 
 export default function App() {
-  console.disableYellowBox = true
   return (
     <ScrollView style={{flex:1, backgroundColor:'#F3F3F3'}}>
       <StatusBar hidden />
